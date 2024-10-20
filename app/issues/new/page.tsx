@@ -1,17 +1,23 @@
 "use client";
-import { Button, Callout, TextArea, TextField } from "@radix-ui/themes";
+import { Button, Callout, Text, TextArea, TextField } from "@radix-ui/themes";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createIssueSchema } from "@/app/ValiadtionSchema";
+import { z } from "zod";
 
-interface IssueForm {
-  title: String;
-  description: String;
-}
+type IssueForm = z.infer<typeof createIssueSchema>;
 
 const NewIssuePage = () => {
-  const { register, handleSubmit } = useForm<IssueForm>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IssueForm>({
+    resolver: zodResolver(createIssueSchema),
+  });
   const router = useRouter();
   const [error, setError] = useState("");
   return (
@@ -33,7 +39,17 @@ const NewIssuePage = () => {
         })}
       >
         <TextField.Root placeholder="Enter a Title" {...register("title")} />
+        {errors.title && (
+          <Text color="red" as="p">
+            {errors?.title?.message}
+          </Text>
+        )}
         <TextArea placeholder="Description" {...register("description")} />
+        {errors.description && (
+          <Text color="red" as="p">
+            {errors?.description?.message}
+          </Text>
+        )}
         <Button>Submit New Issue</Button>
       </form>
     </div>
