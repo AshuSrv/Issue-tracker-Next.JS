@@ -1,6 +1,6 @@
 import prisma from "@/prisma/client";
-import { Link as RedixLink, Table } from "@radix-ui/themes";
-import Link from "next/link";
+import { Table } from "@radix-ui/themes";
+import Link from "@/app/components/Link";
 import React from "react";
 import IssueStatusBadge from "../components/IssueStatusBadge";
 import delay from "delay";
@@ -29,9 +29,7 @@ const IssuesPage = async () => {
           {issues.map((issue) => (
             <Table.Row key={issue.id}>
               <Table.Cell>
-                <Link href={`/issues/${issue.id}`} passHref legacyBehavior>
-                  <RedixLink> {issue.title} </RedixLink>
-                </Link>
+                <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
                 <div className="block md:hidden">
                   <IssueStatusBadge status={issue.status} />
                 </div>
