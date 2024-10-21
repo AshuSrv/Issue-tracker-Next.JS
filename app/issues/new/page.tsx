@@ -9,6 +9,7 @@ import { createIssueSchema } from "@/app/ValiadtionSchema";
 import { z } from "zod";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
+import { data } from "autoprefixer";
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 
@@ -20,9 +21,22 @@ const NewIssuePage = () => {
   } = useForm<IssueForm>({
     resolver: zodResolver(createIssueSchema),
   });
+
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const [error, setError] = useState("");
+
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      setIsLoading(true);
+      await axios.post("/api/issues", data);
+      router.push("/issues");
+    } catch (error) {
+      setIsLoading(false);
+      setError("Something Went Wrong");
+    }
+  });
+
   return (
     <div className="max-w-xl">
       {error && (
@@ -30,19 +44,7 @@ const NewIssuePage = () => {
           <Callout.Text>{error}</Callout.Text>
         </Callout.Root>
       )}
-      <form
-        className="space-y-3"
-        onSubmit={handleSubmit(async (data) => {
-          try {
-            setIsLoading(true);
-            await axios.post("/api/issues", data);
-            router.push("/issues");
-          } catch (error) {
-            setIsLoading(false);
-            setError("Something Went Wrong");
-          }
-        })}
-      >
+      <form className="space-y-3" onSubmit={onSubmit}>
         <TextField.Root placeholder="Enter a Title" {...register("title")} />
         {errors.title && <ErrorMessage>{errors?.title?.message}</ErrorMessage>}
 
