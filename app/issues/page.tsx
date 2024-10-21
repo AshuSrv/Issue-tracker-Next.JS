@@ -31,8 +31,10 @@ const IssuesPage = async () => {
               <Table.Cell>
                 {issue.title}
                 <div className="block md:hidden">{issue.status}</div>
+                {/* When table is shrunk we need it to behave as a block element (e.g., in a non-table layout), */}
               </Table.Cell>
               <Table.Cell className="hidden md:table-cell">
+                {/* If the element needs to be displayed as a table cell on bigger screens */}
                 {issue.status}
               </Table.Cell>
               <Table.Cell className="hidden md:table-cell">
