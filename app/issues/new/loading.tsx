@@ -1,7 +1,15 @@
 import React from "react";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const LoadingNewIssuePage = () => {
-  return <div>Loading...</div>;
+  return (
+    <div className="max-w-xl">
+      <Skeleton />
+      <Skeleton height="6rem" />
+      <Skeleton width="4rem" />
+    </div>
+  );
 };
 
 export default LoadingNewIssuePage;
