@@ -7,8 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createIssueSchema } from "@/app/ValiadtionSchema";
 import { z } from "zod";
-import ErrorMessage from "@/app/components/ErrorMessage";
-import Spinner from "@/app/components/Spinner";
+import { Spinner, ErrorMessage } from "@/app/components";
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 

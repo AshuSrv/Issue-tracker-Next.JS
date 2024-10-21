@@ -3,8 +3,6 @@ import prisma from "@/prisma/client";
 import { Card, Heading, Text } from "@radix-ui/themes";
 import delay from "delay";
 import { notFound } from "next/navigation";
-import React from "react";
-import { number } from "zod";
 
 interface props {
   params: { id: string };
