@@ -3,7 +3,7 @@ import prisma from "@/prisma/client";
 import { Box, Button, Card, Grid, Heading, Text } from "@radix-ui/themes";
 import delay from "delay";
 import Link from "next/link";
-import { Pencil2Icon } from "@radix-ui/react-icons";
+import { Pencil2Icon, TrashIcon } from "@radix-ui/react-icons";
 import { notFound } from "next/navigation";
 
 interface props {
@@ -22,8 +22,8 @@ const IssueDetailPage = async ({ params }: props) => {
 
   await delay(2000);
   return (
-    <Grid columns={{ initial: "1", sm: "2" }} gap="5">
-      <Box>
+    <Grid columns={{ initial: "1", sm: "5" }} gap="5">
+      <Box className="md:col-span-4">
         <Heading>{issueDetails?.title}</Heading>
         <div className="flex space-x-3 my-3">
           <IssueStatusBadge status={issueDetails?.status} />
@@ -34,10 +34,16 @@ const IssueDetailPage = async ({ params }: props) => {
         </Card>
       </Box>
       <Box>
-        <Button>
-          <Pencil2Icon />
-          <Link href={`/issues/${issueDetails.id}/edit`}>Edit Issue</Link>
-        </Button>
+        <div className="flex flex-col gap-3">
+          <Button>
+            <Pencil2Icon />
+            <Link href={`/issues/${issueDetails.id}/edit`}>Edit Issue</Link>
+          </Button>
+          <Button color="red">
+            <TrashIcon />
+            <Link href={`/issues/${issueDetails.id}/delete`}>Delete Issue</Link>
+          </Button>
+        </div>
       </Box>
     </Grid>
   );
