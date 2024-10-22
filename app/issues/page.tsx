@@ -50,4 +50,9 @@ const IssuesPage = async () => {
   );
 };
 
+// This will make this component dynamic instead of static to avoid full route cache (server cache)
+export const dynamic = "force-dynamic"; //Output of this page has to be refereshed every time
+// export const revalidate = 0; // Exactly same as above statement
+// export const revalidate = 60; // Means output of this page has to be revalidated every 60 second
+
 export default IssuesPage;
