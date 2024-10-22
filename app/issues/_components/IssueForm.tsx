@@ -38,6 +38,8 @@ const IssueForm = ({ issue }: props) => {
         await axios.post("/api/issues", data);
       }
       router.push("/issues");
+      router.refresh();
+      //   To tell NextJs to refetch the page instead of invalidating automatically after 30 sec(bcoz Dynamic page).
     } catch (error) {
       setIsLoading(false);
       setError("Something Went Wrong");
