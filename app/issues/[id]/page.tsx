@@ -5,6 +5,7 @@ import delay from "delay";
 import Link from "next/link";
 import { Pencil2Icon, TrashIcon } from "@radix-ui/react-icons";
 import { notFound } from "next/navigation";
+import DeleteIssueButton from "./DeleteIssueButton";
 
 interface props {
   params: { id: string };
@@ -29,7 +30,7 @@ const IssueDetailPage = async ({ params }: props) => {
           <IssueStatusBadge status={issueDetails?.status} />
           <Text>{issueDetails?.createdAt.toDateString()}</Text>
         </div>
-        <Card className="prose" mt="3">
+        <Card className="prose max-w-full" mt="3">
           <p>{issueDetails?.description}</p>
         </Card>
       </Box>
@@ -39,10 +40,7 @@ const IssueDetailPage = async ({ params }: props) => {
             <Pencil2Icon />
             <Link href={`/issues/${issueDetails.id}/edit`}>Edit Issue</Link>
           </Button>
-          <Button color="red">
-            <TrashIcon />
-            <Link href={`/issues/${issueDetails.id}/delete`}>Delete Issue</Link>
-          </Button>
+          <DeleteIssueButton issueId={issueDetails.id} />
         </div>
       </Box>
     </Grid>
