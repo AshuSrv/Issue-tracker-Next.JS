@@ -1,14 +1,8 @@
 import React from "react";
-import Skeleton from "@/app/components/Skeleton";
+import IssueFormSkeleton from "../_components/IssueFormSkeleton";
 
 const LoadingNewIssuePage = () => {
-  return (
-    <div className="max-w-xl">
-      <Skeleton />
-      <Skeleton height="6rem" />
-      <Skeleton width="4rem" />
-    </div>
-  );
+  return <IssueFormSkeleton />;
 };
 
 export default LoadingNewIssuePage;
