@@ -63,6 +63,7 @@ const NavBar = () => {
                     size="1"
                     radius="full"
                     className="cursor-pointer"
+                    referrerPolicy="no-referrer" // to fix an error where image fetching giving an issue.
                   />
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content>
