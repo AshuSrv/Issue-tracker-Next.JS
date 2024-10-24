@@ -1,11 +1,13 @@
 import IssueStatusBadge from "@/app/components/IssueStatusBadge";
 import prisma from "@/prisma/client";
-import { Box, Button, Card, Grid, Heading, Text } from "@radix-ui/themes";
+import { Box, Button, Card, Flex, Grid, Heading, Text } from "@radix-ui/themes";
 import delay from "delay";
 import Link from "next/link";
 import { Pencil2Icon, TrashIcon } from "@radix-ui/react-icons";
 import { notFound } from "next/navigation";
 import DeleteIssueButton from "./DeleteIssueButton";
+import { getServerSession } from "next-auth";
+import AuthOptions from "@/app/api/auth/[...nextauth]/AuthOptions";
 
 interface props {
   params: { id: string };
@@ -21,6 +23,8 @@ const IssueDetailPage = async ({ params }: props) => {
 
   if (!issueDetails) notFound();
 
+  const session = await getServerSession(AuthOptions);
+
   await delay(2000);
   return (
     <Grid columns={{ initial: "1", sm: "5" }} gap="5">
@@ -34,15 +38,17 @@ const IssueDetailPage = async ({ params }: props) => {
           <p>{issueDetails?.description}</p>
         </Card>
       </Box>
-      <Box>
-        <div className="flex flex-col gap-3">
-          <Button>
-            <Pencil2Icon />
-            <Link href={`/issues/${issueDetails.id}/edit`}>Edit Issue</Link>
-          </Button>
-          <DeleteIssueButton issueId={issueDetails.id} />
-        </div>
-      </Box>
+      {session && (
+        <Box>
+          <Flex direction="column" gap="3">
+            <Button>
+              <Pencil2Icon />
+              <Link href={`/issues/${issueDetails.id}/edit`}>Edit Issue</Link>
+            </Button>
+            <DeleteIssueButton issueId={issueDetails.id} />
+          </Flex>
+        </Box>
+      )}
     </Grid>
   );
 };
