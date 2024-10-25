@@ -14,6 +14,13 @@ const AssigneSelect = () => {
     };
     getUsers();
   }, []);
+
+  //   Issue with the UseState and UseEffect approach to fetch users and display list
+  //  1. No error handling -> ofcouse can add manually
+  //  2. No caching system -> Can add that manually as well.
+  //  3. No logic for retrying -> can be added manually as well
+  //  But doing all this again and again is tiresome, instead let's use tanstack Querry(react Querry) to replace this old useState and useEffect method.
+
   return (
     <Select.Root>
       <Select.Trigger placeholder="Select a User" />
