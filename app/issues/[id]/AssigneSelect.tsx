@@ -1,19 +1,20 @@
 "use client";
 import { User } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import Skeleton from "@/app/components/Skeleton";
 
 const AssigneSelect = () => {
-  const [users, setUser] = useState<User[]>([]);
+  //   const [users, setUser] = useState<User[]>([]);
 
-  useEffect(() => {
-    const getUsers = async () => {
-      const { data } = await axios.get<User[]>("/api/users/");
-      setUser(data);
-    };
-    getUsers();
-  }, []);
+  //   useEffect(() => {
+  //     const getUsers = async () => {
+  //       const { data } = await axios.get<User[]>("/api/users/");
+  //       setUser(data);
+  //     };
+  //     getUsers();
+  //   }, []);
 
   //   Issue with the UseState and UseEffect approach to fetch users and display list
   //  1. No error handling -> ofcouse can add manually
@@ -21,13 +22,28 @@ const AssigneSelect = () => {
   //  3. No logic for retrying -> can be added manually as well
   //  But doing all this again and again is tiresome, instead let's use tanstack Querry(react Querry) to replace this old useState and useEffect method.
 
+  const {
+    data: users,
+    error,
+    isLoading,
+  } = useQuery<User[]>({
+    queryKey: ["users"],
+    queryFn: () => axios.get("/api/users").then((res) => res.data),
+    staleTime: 30 * 1000, // 30 seconds
+    retry: 2,
+  });
+
+  if (isLoading) return <Skeleton />;
+
+  if (error) return null;
+
   return (
     <Select.Root>
       <Select.Trigger placeholder="Select a User" />
       <Select.Content>
         <Select.Group>
           <Select.Label>Suggestions</Select.Label>
-          {users.map((user) => (
+          {users?.map((user) => (
             <Select.Item key={user.id} value={user.id}>
               {user.name}
             </Select.Item>
