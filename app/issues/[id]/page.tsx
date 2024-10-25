@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 import DeleteIssueButton from "./DeleteIssueButton";
 import { getServerSession } from "next-auth";
 import AuthOptions from "@/app/api/auth/[...nextauth]/AuthOptions";
+import AssigneSelect from "./AssigneSelect";
 
 interface props {
   params: { id: string };
@@ -41,6 +42,7 @@ const IssueDetailPage = async ({ params }: props) => {
       {session && (
         <Box>
           <Flex direction="column" gap="3">
+            <AssigneSelect />
             <Button>
               <Pencil2Icon />
               <Link href={`/issues/${issueDetails.id}/edit`}>Edit Issue</Link>
