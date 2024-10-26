@@ -4,6 +4,7 @@ import { Select } from "@radix-ui/themes";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Skeleton from "@/app/components/Skeleton";
+import toast, { Toaster } from "react-hot-toast";
 
 interface props {
   issue: Issue;
@@ -37,33 +38,49 @@ const AssigneSelect = ({ issue }: props) => {
     retry: 2,
   });
 
+  const handleChange = async (selectedUserID: string) => {
+    try {
+      await axios.patch("/api/issues/" + issue?.id, {
+        assignedToUserId:
+          selectedUserID === "unassigned" ? null : selectedUserID,
+      });
+      toast.success("Successfully updated the user.", { icon: "👏" });
+    } catch (error) {
+      toast.error("Changes could not be saved.");
+    }
+  };
+
   if (isLoading) return <Skeleton />;
 
   if (error) return null;
 
   return (
-    <Select.Root
-      defaultValue={issue?.assignedToUserId || "unassigned"}
-      onValueChange={async (selectedUserID) => {
-        await axios.patch("/api/issues/" + issue?.id, {
-          assignedToUserId:
-            selectedUserID === "unassigned" ? null : selectedUserID,
-        });
-      }}
-    >
-      <Select.Trigger placeholder="Select a User" />
-      <Select.Content>
-        <Select.Group>
-          <Select.Label>Suggestions</Select.Label>
-          <Select.Item value="unassigned">Unassigned</Select.Item>
-          {users?.map((user) => (
-            <Select.Item key={user.id} value={user.id}>
-              {user.name}
-            </Select.Item>
-          ))}
-        </Select.Group>
-      </Select.Content>
-    </Select.Root>
+    <>
+      <Select.Root
+        defaultValue={issue?.assignedToUserId || "unassigned"}
+        onValueChange={handleChange}
+        /**
+         * Use onValueChange={handleChange} when:
+         * The function only needs a single argument directly from the event or callback.
+         * Use onValueChange={(userID) => handleChange(userID)} when:
+         * You need to customize what happens with the argument or pass additional parameters.
+         */
+      >
+        <Select.Trigger placeholder="Select a User" />
+        <Select.Content>
+          <Select.Group>
+            <Select.Label>Suggestions</Select.Label>
+            <Select.Item value="unassigned">Unassigned</Select.Item>
+            {users?.map((user) => (
+              <Select.Item key={user.id} value={user.id}>
+                {user.name}
+              </Select.Item>
+            ))}
+          </Select.Group>
+        </Select.Content>
+      </Select.Root>
+      <Toaster />
+    </>
   );
 };
 
