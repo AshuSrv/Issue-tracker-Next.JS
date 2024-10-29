@@ -2,6 +2,7 @@ import prisma from "@/prisma/client";
 import IssueSummary from "./IssueSummary";
 import LatestIssues from "./LatestIssues";
 import IssueChart from "./IssueChart";
+import { Box, Flex, Grid } from "@radix-ui/themes";
 
 interface props {
   searchParams: { page: string };
@@ -18,18 +19,22 @@ export default async function Home({ searchParams }: props) {
     where: { status: "IN_PROGRESS" },
   });
   return (
-    <div>
-      <LatestIssues />
-      <IssueSummary
-        open={openIssue}
-        closed={closedIssue}
-        inProgress={inPorgressIssue}
-      />
-      <IssueChart
-        open={openIssue}
-        closed={closedIssue}
-        inProgress={inPorgressIssue}
-      />
-    </div>
+    <Grid columns={{ initial: "1", md: "5" }} gap="4">
+      <Flex className="md:col-span-2" direction="column" gap="5">
+        <IssueSummary
+          open={openIssue}
+          closed={closedIssue}
+          inProgress={inPorgressIssue}
+        />
+        <IssueChart
+          open={openIssue}
+          closed={closedIssue}
+          inProgress={inPorgressIssue}
+        />
+      </Flex>
+      <Box className="md:col-span-3">
+        <LatestIssues />
+      </Box>
+    </Grid>
   );
 }
