@@ -1,9 +1,13 @@
-import Pagination from "./components/Pagination";
+import LatestIssues from "./LatestIssues";
 
 interface props {
   searchParams: { page: string };
 }
 
 export default function Home({ searchParams }: props) {
-  return <div>Home Page</div>;
+  return (
+    <div>
+      <LatestIssues />
+    </div>
+  );
 }
