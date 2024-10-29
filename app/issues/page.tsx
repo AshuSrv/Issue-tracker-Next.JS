@@ -1,5 +1,5 @@
 import prisma from "@/prisma/client";
-import { Table } from "@radix-ui/themes";
+import { Flex, Table } from "@radix-ui/themes";
 import Link from "@/app/components/Link";
 import React from "react";
 import IssueStatusBadge from "../components/IssueStatusBadge";
@@ -32,7 +32,8 @@ const IssuesPage = async ({ searchParams }: props) => {
   await delay(1500);
 
   return (
-    <div className="gap-3">
+    <Flex direction={"column"} gap={"5"}>
+      {/* <div className="flex-col space-y-5"> */}
       <IssuesAction />
       <Table.Root variant="surface">
         <Table.Header>
@@ -72,7 +73,8 @@ const IssuesPage = async ({ searchParams }: props) => {
         pageSize={pageSize}
         itemCount={totalIssueCount}
       />
-    </div>
+      {/* </div> */}
+    </Flex>
   );
 };
 
