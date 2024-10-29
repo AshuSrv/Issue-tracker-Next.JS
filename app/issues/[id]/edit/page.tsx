@@ -24,4 +24,15 @@ const EditIssuePage = async ({ params }: props) => {
   return <IssueForm issue={issue} />;
 };
 
+export async function generateMetadata({ params }: props) {
+  const issue = await prisma.issue.findUnique({
+    where: { id: parseInt(params.id) },
+  });
+
+  return {
+    title: "Edit " + issue?.title,
+    description: "Editing of Issue " + issue?.id,
+  };
+}
+
 export default EditIssuePage;

@@ -7,6 +7,7 @@ import delay from "delay";
 import IssuesAction from "./IssuesAction";
 import { Status } from "@prisma/client";
 import Pagination from "../components/Pagination";
+import { Metadata } from "next";
 
 interface props {
   searchParams: { status: Status; page: string };
@@ -76,6 +77,11 @@ const IssuesPage = async ({ searchParams }: props) => {
       {/* </div> */}
     </Flex>
   );
+};
+
+export const metadata: Metadata = {
+  title: "Issue Tracker - Issues List",
+  description: "View all project issues",
 };
 
 // This will make this component dynamic instead of static to avoid full route cache (server cache)
