@@ -1,7 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 
 const prismaClientSingleton = () => {
-  return new PrismaClient();
+  return new PrismaClient({
+    log: ["query"], //Now all the queries send to database will be logged to console
+  });
 };
 
 declare const globalThis: {
