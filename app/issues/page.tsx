@@ -6,22 +6,33 @@ import IssueStatusBadge from "../components/IssueStatusBadge";
 import delay from "delay";
 import IssuesAction from "./IssuesAction";
 import { Status } from "@prisma/client";
+import Pagination from "../components/Pagination";
 
 interface props {
-  searchParams: { status: Status };
+  searchParams: { status: Status; page: string };
 }
 const IssuesPage = async ({ searchParams }: props) => {
   const statusValue = Object.keys(Status).includes(searchParams.status)
     ? searchParams.status
     : undefined;
+
+  const pageSize = 10;
+  const page = parseInt(searchParams.page) || 1;
+
   const issues = await prisma.issue.findMany({
+    where: { status: statusValue },
+    skip: (page - 1) * pageSize,
+    take: pageSize,
+  });
+
+  const totalIssueCount = await prisma.issue.count({
     where: { status: statusValue },
   });
 
-  await delay(2000);
+  await delay(1500);
 
   return (
-    <div>
+    <div className="gap-3">
       <IssuesAction />
       <Table.Root variant="surface">
         <Table.Header>
@@ -56,6 +67,11 @@ const IssuesPage = async ({ searchParams }: props) => {
           ))}
         </Table.Body>
       </Table.Root>
+      <Pagination
+        currentPage={page}
+        pageSize={pageSize}
+        itemCount={totalIssueCount}
+      />
     </div>
   );
 };
