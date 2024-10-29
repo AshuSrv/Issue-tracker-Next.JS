@@ -1,6 +1,6 @@
 "use client";
 import { Select } from "@radix-ui/themes";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 
 const issues = [
@@ -24,8 +24,10 @@ const issues = [
 
 const IssueStatusFilter = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   return (
     <Select.Root
+      defaultValue={searchParams.get("status") || " "}
       onValueChange={(status) => {
         const query = status.trim().length > 0 ? `?status=${status}` : "";
         router.push("/issues" + query);
