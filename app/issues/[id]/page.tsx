@@ -66,6 +66,8 @@ export async function generateMetadata({ params }: props) {
   };
 }
 
+export const dynamic = "force-dynamic";
+
 // Todo: Optimize using React cache so don't fetch same issue twice. One in main function and another in metadata function
 
 export default IssueDetailPage;

@@ -40,6 +40,8 @@ export default async function Home({ searchParams }: props) {
   );
 }
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Issue Tracker - Dashboard",
   description: "View a summary of project issues",
